@@ -1,0 +1,51 @@
+<script>
+  function ram()
+  { alert('jk');
+    var country_code = $('#post_country').val();
+    alert(country_code);
+    window.location.href = "/posts/subregion_options"
+    //url = "posts/subregion_options?parent_region="+country_code
+    //alert(url);
+    //select_wrapper.load(url)
+  }
+
+</script>
+
+<%= form_for(@post) do |f| %>
+  <% if @post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+      <% @post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :country %><br />
+     <%= f.country_select :country, priority: %w(US CA IN), prompt: 'Please select a country' %>
+     <%= button_tag 'Country', :onclick => 'ram()' %> 
+  </div>
+ 
+ 
+  <div class="field">
+  <%= f.label :state %><br />
+  <%= render partial: 'subregion_select', locals: {parent_region: f.object.country} %>
+</div>
+ 
+ 
+  <div class="field">
+    <%= f.label :state %><br />
+    <%= f.text_field :state , :onblur => 'testfun()'%>
+  </div>
+  <div class="field">
+    <%= f.label :other %><br />
+    <%= f.text_field :other %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

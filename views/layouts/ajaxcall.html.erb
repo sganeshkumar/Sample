@@ -1,0 +1,52 @@
+ 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ajax</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "jquery" %>
+  <%= csrf_meta_tags %>
+  
+  <script>
+	 function v(id)
+	 {   
+	     $.ajax({
+		url: "application/ajaxcall",
+		type: "POST",
+		data: {productid: id},
+		success: function (data) {
+		$('#txtHint').html(data);
+		}
+	    });
+	  
+	 }
+	
+  </script>
+  
+  
+</head>
+<body bgcolor='#E6E6E6'>
+    <% @b = session['a'] %>
+    <% if @b %> 
+       <div id="menu">
+	<ul>
+            <li><%= link_to 'Homepage','#',:onclick => "return v('h')"  %></li>
+            <li><%= link_to 'Our Clients','#',:onclick => "return v('o')"  %></li>
+            <li><%= link_to 'About Us','#',:onclick => "return v('a')"  %></li>
+            <li><%= link_to 'Careers','#',:onclick => "return v('c')"  %></li>
+            <li><%= link_to 'Contact Us','#',:onclick => "return v('u')"  %></li>
+           
+            <%= session['a'] = nil %> 
+        </ul>		
+       </div>
+    <% end %>
+ <% session['a'] = 1 %> 
+
+<%= yield %>
+
+  <div id="txtHint" style="margin-left:300px;">
+    sample
+  </div>
+</body>
+</html>
